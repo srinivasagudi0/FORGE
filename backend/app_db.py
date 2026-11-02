@@ -7,7 +7,7 @@ def init_db():
         CREATE TABLE IF NOT EXISTS projects (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
-            folder_path TEXT NOT NULL,
+            folder_path TEXT NOT NULL UNIQUE,
             language TEXT NOT NULL,
             date TEXT NOT NULL,
             last_updated TEXT NOT NULL
