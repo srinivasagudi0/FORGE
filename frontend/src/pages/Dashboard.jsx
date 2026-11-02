@@ -14,6 +14,8 @@ function Dashboard() {
                 name: e.target.name.value,
                 folder_path: e.target.folder_path.value, 
                 language: e.target.language.value,
+                date: new Date().toISOString(),
+                last_updated: new Date().toISOString()
             })
         })
     }
