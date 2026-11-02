@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import flask_cors
 from app_db import init_db, create_project, get_projects
 
@@ -32,9 +32,9 @@ def make_project():
 
 @app.route('/api/projects/view')
 def view_projects():
-    try:    
+    try:
         projects = get_projects()
-        return {"projects": projects}
+        return {"projects": jsonify(projects)}
     except Exception as e:
         return {"error": str(e)}, 400
 if __name__ == '__main__':
