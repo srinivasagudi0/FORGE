@@ -5,8 +5,18 @@ function Dashboard() {
     function AddProject() {
         e.preventDefault()
         console.log("Add Project")
+        fetch('http://localhost:5000/api/projects/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: e.target.name.value,
+                folder_path: e.target.folder_path.value, 
+                language: e.target.language.value,
+            })
+        })
     }
-
     const [ShowForm, setShowForm] = useState(false)
     const [status, setStatus] = useState(null)
     useEffect(() =>{
