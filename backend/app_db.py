@@ -6,9 +6,9 @@ def init_db():
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS projects (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            folder_path TEXT NOT NULL UNIQUE,
-            language TEXT NOT NULL,
+            name TEXT NOT NULL CHECK(length(name) > 0),
+            folder_path TEXT NOT NULL UNIQUE CHECK(length(folder_path) > 0),
+            language TEXT NOT NULL CHECK(length(language) > 0),
             date TEXT NOT NULL,
             last_updated TEXT NOT NULL
         )
