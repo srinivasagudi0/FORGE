@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 
 function Dashboard() {
 
-    function AddProject() {
+    function AddProject(e) {
         e.preventDefault()
         console.log("Add Project")
         fetch('http://localhost:5000/api/projects/create', {
