@@ -1,6 +1,6 @@
 from flask import Flask, request
 import flask_cors
-from app_db import init_db
+from app_db import init_db, create_project
 
 app = Flask(__name__)
 CORS = flask_cors.CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -22,6 +22,9 @@ def create_project():
     language = data.get('language')
     date = data.get('date')
     last_updated = data.get('last_updated')
+    create_project(name, folder_path, language, date, last_updated)
+    return {"message": "Project created successfully."}
+
 
 
 if __name__ == '__main__':
