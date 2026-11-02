@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 import flask_cors
-from app_db import init_db, create_project, get_projects
+from app_db import delete_project, init_db, create_project, get_projects
 
 app = Flask(__name__)
 CORS = flask_cors.CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -37,5 +37,18 @@ def view_projects():
         return {"projects": projects}
     except Exception as e:
         return {"error": str(e)}, 400
+
+@app.route('/api/projects/delete', methods=['POST'])
+def remove_project():
+    data = request.get_json()
+    project_id = data.get('id')
+    if not project_id:
+        return {"error": "Missing project ID."}, 400
+    try:
+        delete_project(project_id)
+        return {"message": "Project deleted successfully."}
+    except Exception as e:
+        return {"error": str(e)}, 400
+    
 if __name__ == '__main__':
     app.run()

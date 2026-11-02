@@ -33,3 +33,10 @@ def get_projects():
     projects = cursor.fetchall()
     conn.close()
     return projects
+
+def delete_project(project_id):
+    conn = sqlite3.connect('app.db')
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM projects WHERE id = ?', (project_id,))
+    conn.commit()
+    conn.close()

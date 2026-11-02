@@ -19,6 +19,20 @@ function Dashboard() {
             })
         })
     }
+
+    function deleteProject(id) {
+        console.log("Delete Project")
+        fetch(`http://localhost:5000/api/projects/delete`, {
+            method: 'POST',
+            headers: {
+                'CONTENT-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: Number(id)
+            })
+        })
+    }
+
     const [ShowForm, setShowForm] = useState(false)
     const [status, setStatus] = useState(null)
     useEffect(() =>{
@@ -49,6 +63,7 @@ function Dashboard() {
                         <p>{project[3]}</p>
                         <p>{project[4]}</p>
                         <p>{project[5]}</p>
+                        <button onClick={() => deleteProject(project[0])}>Delete</button>
                     </li>))}
             </ul>
             
