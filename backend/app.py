@@ -15,20 +15,27 @@ def health_check():
     }
 
 @app.route('/api/projects/create', methods=['POST'])
-def create_project():
+def make_project():
     data = request.get_json()
     name = data.get('name')
     folder_path = data.get('folder_path')
     language = data.get('language')
     date = data.get('date')
     last_updated = data.get('last_updated')
-    create_project(name, folder_path, language, date, last_updated)
+    if not all([name, folder_path, language, date, last_updated]):
+        return {"error": "Missing required fields."}, 400
+    try:
+        create_project(name, folder_path, language, date, last_updated)
+    except Exception as e:
+        return {"error": str(e)}, 400
     return {"message": "Project created successfully."}
 
 @app.route('/api/projects/view')
 def view_projects():
-    projects = get_projects()
-    return {"projects": projects}
-
+    try:    
+        projects = get_projects()
+        return {"projects": projects}
+    except Exception as e:
+        return {"error": str(e)}, 400
 if __name__ == '__main__':
     app.run()
