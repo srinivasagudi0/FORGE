@@ -34,7 +34,7 @@ def make_project():
 def view_projects():
     try:
         projects = get_projects()
-        return {"projects": jsonify(projects)}
+        return {"projects": projects}
     except Exception as e:
         return {"error": str(e)}, 400
 if __name__ == '__main__':
