@@ -25,3 +25,11 @@ def create_project(name, folder_path, language, date, last_updated):
     ''', (name, folder_path, language, date, last_updated))
     conn.commit()
     conn.close()
+
+def get_projects():
+    conn = sqlite3.connect('app.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM projects')
+    projects = cursor.fetchall()
+    conn.close()
+    return projects
