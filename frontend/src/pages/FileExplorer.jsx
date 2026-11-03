@@ -24,15 +24,12 @@ function FileExplorer() {
     }
 
     function openFolder(folderName) {
-        const newPath = currentPath
-            ? `${currentPath}/${folderName}`
-            : folderName;
-        setCurrentPath(newPath);
+        setCurrentPath(currentPath ? `${currentPath}/${folderName}` : folderName);
     }
 
     useEffect(() => {
         setLoading(true);
-        fetch(`http://localhost:5000/api/projects/${id}/files`)
+        fetch(`http://localhost:5000/api/projects/${id}/files?path=${encodeURIComponent(currentPath)}`)
             .then(response => {
                 if (!response.ok) throw new Error('Failed to load files');
                 return response.json();
