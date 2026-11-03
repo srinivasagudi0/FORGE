@@ -45,3 +45,35 @@ main {
 ul {
     gap: 2rem;
 }
+
+.project-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.project-actions button {
+    padding: 10px 18px;
+    border: 2px solid #252436;
+    cursor: pointer;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    box-shadow: 4px 4px 0 #252436;
+    transition: 0.2s ease-in-out;
+}
+
+.project-actions button:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 #252436;
+}
+.delete-btn {
+    background-color: #ff4d4d;
+    color: #252436;
+}
+
+.open-btn {
+    background-color: #B9B1F4;
+    color: #252436;
+}
+
