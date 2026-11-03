@@ -102,3 +102,17 @@ ul {
     border-radius: 20px;
     font-weight: 800;
 }
+
+.project-dates {
+    background-color: #F3EFFA;
+    border: 2px dashed #B9B1F4;
+    padding: 10px 14px;
+    border-radius: 12px;
+    margin-top: 16px;
+}
+
+.project-dates li .project-dates p {
+    font-size: 0.8rem;
+    color: #676476;
+    margin: 4px 0;
+}
