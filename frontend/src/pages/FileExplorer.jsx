@@ -129,6 +129,12 @@ function FileExplorer() {
                     </li>
                 ))}
             </ul>
+            <section>
+                <h2>Terminal Panel</h2>
+                <input type="text" placeholder="Enter command..." />
+                <button>Run</button>
+                <pre id="terminal-output"></pre>
+            </section>
         </main>
     )
 }
