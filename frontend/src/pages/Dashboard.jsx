@@ -102,8 +102,8 @@ function Dashboard() {
                         <h2>{project[1]}</h2>
                         <p>{project[2]}</p>
                         <p>{project[3]}</p>
-                        <p>{project[4]}</p>
-                        <p>{project[5]}</p>
+                        <p>Created: {project[4]}</p>
+                        <p>Last Modified: {project[5]}</p>
                         <div className="project-actions">
                         <button className="delete-btn" onClick={() => deleteProject(project[0])}>Delete</button>
                         <button className="open-btn" onClick={() => openFiles(project[0])}>Open Files</button>

@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap');
+
 main {
     min-height: 100vh;
     background-color: #F9F2E5;
+    font-family: 'Nunito', sans-serif;
     padding: 2rem;
 }
 
@@ -77,3 +80,25 @@ ul {
     color: #252436;
 }
 
+.project-list li h2 {
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: #252436;
+}
+
+.project-list li p {
+    color: #676476;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    overflow-wrap: break-word;
+    margin: 8px 0;
+}
+
+.project-list li p:nth-child(2) {
+    display: inline-block;
+    background: #BDE5CF;
+    padding: 5px 12px;
+    border: 2px solid #252436;
+    border-radius: 20px;
+    font-weight: 800;
+}
