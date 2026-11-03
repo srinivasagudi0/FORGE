@@ -1,15 +1,17 @@
 main {
     min-height: 100vh;
-    background-color: rgba(43, 165, 226, 0.728);
+    background-color: #F9F2E5;
+    padding: 2rem;
 }
 
 .dashboard-title {
     text-align: center;
-    color: rgb(133, 75, 250);
+    color: #252436;
     font-size: 4rem;
-    text-decoration: underline;
-    text-decoration-style: double;
-    margin-top: 2rem;
+    font-weight: 900;
+    margin: 2rem 0;
+    text-decoration: none;
+    letter-spacing: -2px;
 }
 
 .project-list {
