@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap');
 
 main {
@@ -118,4 +119,71 @@ ul {
     font-size: 0.8rem;
     color: #676476;
     margin: 4px 0;
+}
+
+.add-project-btn {
+    background: #f9db89;
+    color:#252436;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.2rem;
+    border: 3px solid #252436;
+    border-radius: 15px;
+    padding: 14px 30px;
+    cursor: pointer;
+}
+
+.add-project-session {
+    max-width: 600px;
+    margin: 3rem auto;
+    text-align:center;
+}
+
+.add-project-btn:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 6px 6px 0 #252436;
+}
+
+.project-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+    border: 3px solid #252436;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 7px 7px ;
+    padding: 25px;
+    margin-top: 30px;
+}
+
+.project-form h2 {  
+    font-family: 'Fredoka', sans-serif;
+    font-size: 2rem;
+    color: #252436;
+    margin:0
+}
+
+.project-form p {
+    color: #676476;
+    margin: 0 0 12px;
+}
+
+.project-form label {
+    font-weight: 800;
+    color: #252436;
+}
+
+.project-form input {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    background-color: #FFFDF8;
+    border: 2px solid #252436;
+    border-radius: 12px;
+    padding: 12px;
+    min-width:0;
+}
+
+.project-form input:focus {
+    outline: 3px solid #B9B1F4;
+    outline-offset: 2px;
 }

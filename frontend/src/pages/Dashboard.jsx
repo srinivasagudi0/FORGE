@@ -112,17 +112,29 @@ function Dashboard() {
                         </div>
                     </li>))}
             </ul>
+            <div className='add-project-section'>
+            <button className="add-project-btn" onClick={() => setShowForm(true)}>+ Add Project</button>
+           {ShowForm && (
+            <form className="project-form" onSubmit={AddProject}>
+                <h2>Create a Project</h2>
+                <p>Every great idea starts somewhere.</p>
 
-            <button onClick={() => setShowForm(true)}>Add Project</button>
-            {ShowForm && (
-                <form onSubmit={AddProject}>
-                    <input type="text" name="name" placeholder="Project Name" required />
-                    <input type="text" name="folder_path" placeholder="location" required />
-                    <input type="text" name="language" placeholder="language" required />
-                    <button type="submit">Submit</button>
+                <label htmlFor="project-name">Project Name</label>
+                <input id="project-name" type="text" name="name" placeholder="My awesome project" required/>
+
+                <label htmlFor="folder-path">Folder Location</label>
+                <input id="folder-path" type="text" name="folder_path" placeholder="/Users/me/projects" required/>
+
+                <label htmlFor="language">Language</label>
+                <input id="language" type="text" name="language" placeholder="Python, JavaScript..." required />
+
+                <div className="form-actions">
+                    <button type="submit">Create</button>
                     <button type="button" onClick={() => setShowForm(false)}>Cancel</button>
-                </form>
+                </div>
+            </form>
             )}
+            </div>
         </main>
         )
     }
