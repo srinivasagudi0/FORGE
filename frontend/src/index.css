@@ -15,10 +15,31 @@ main {
 }
 
 .project-list {
-    background-color: rgb(85, 226, 25);
-    display: inline-block;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
     list-style: none;
-    max-width: 40%;
+    background: transparent;
+
+    max-width: 100%;
+    padding: 1rem;
+}
+
+.project-list li {
+    background-color: #eac380;
+    border: 3px solid #252436;
+    border-radius: 18px;
+    padding: 1.5rem;
+    color:rgb(0, 132, 255);
+    width: 280px;
+
+    box-shadow: 6px 6px 0 #252436;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.project-list li:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 10px 10px 0 #252436;
 }
 
 ul {

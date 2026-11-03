@@ -96,9 +96,9 @@ function Dashboard() {
         return (
         <main>
             <h1 className="dashboard-title">Dashboard</h1>
-            <ul>
+            <ul className='project-list'>
                 {projects.map((project) => (
-                    <li className="project-list" key={project[0]}>
+                    <li key={project[0]}>
                         <h2>{project[1]}</h2>
                         <p>{project[2]}</p>
                         <p>{project[3]}</p>
