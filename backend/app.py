@@ -1,3 +1,4 @@
+from pathlib import Path
 import os
 from flask import Flask, request, jsonify
 import flask_cors
@@ -53,17 +54,38 @@ def remove_project():
 
 @app.route('/api/projects/<int:project_id>/files')
 def list_project_files(project_id):
+    project = get_project_by_id(project_id)
+    if not project:
+        return {"error": "Project not found."}, 404
+    root = Path(project[2]).expanduser().resolve()
+
+    if not root.is_dir():
+        return {"error": "Project folder path is not a directory."}, 400
+
+    current_path = request.args.get('path', '')
+
     try:
-        project = get_project_by_id(project_id)
-        if not project:
-            return {"error": "Project not found."}, 404
-        folder_path = project[2]  # Assuming folder_path is the third column in the
-        if not os.path.isdir(folder_path):
-            return {"error": "Project folder path does not exist."}, 400
-        cont = os.listdir(folder_path)
+        target = (root / current_path).resolve()
+        if not target.is_relative_to(root):
+            return {"eroor": "Acess denied. "}
+
+        if not target.is_dir():
+            return {"error": "Target path is not a directory."}, 400
+
     except Exception as e:
         return {"error": str(e)}, 400
-    return jsonify({"files": cont})
+
+    files = []
+    for item in target.iterdir():
+        files.append({
+            "name": item.name,
+            "is_dir": item.is_dir(),
+            "path": str(item.relative_to(root))
+        })
+
+    files.sort(key=lambda item: (not item["is_directory"], item["name"].lower()))
+
+    return jsonify({"files": files})
 
 if __name__ == '__main__':
     app.run()
