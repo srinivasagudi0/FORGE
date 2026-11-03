@@ -10,3 +10,5 @@ function FileExplorer() {
         </main>
     )
 }
+
+export default FileExplorer;

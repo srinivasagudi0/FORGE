@@ -55,12 +55,14 @@ def remove_project():
 def list_project_files(project_id):
     try:
         project = get_project_by_id(project_id)
-    if not project:
-        return {"error": "Project not found."}, 404
-    folder_path = project[2]  # Assuming folder_path is the third column in the
-    if not os.path.isdir(folder_path):
-        return {"error": "Project folder path does not exist."}, 400
-    cont = os.listdir(folder_path)
+        if not project:
+            return {"error": "Project not found."}, 404
+        folder_path = project[2]  # Assuming folder_path is the third column in the
+        if not os.path.isdir(folder_path):
+            return {"error": "Project folder path does not exist."}, 400
+        cont = os.listdir(folder_path)
+    except Exception as e:
+        return {"error": str(e)}, 400
     return jsonify({"files": cont})
 
 if __name__ == '__main__':

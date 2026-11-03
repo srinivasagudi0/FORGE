@@ -11,7 +11,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Dashboard />} />
-        <Route path="/file-explorer/:id" element={<FileExplorer />} />
+        <Route path="/explorer/:id" element={<FileExplorer />} />
       </Routes>
     </Router>
   );
