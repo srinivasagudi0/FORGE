@@ -187,3 +187,35 @@ ul {
     outline: 3px solid #B9B1F4;
     outline-offset: 2px;
 }
+
+.form-actions button {
+    flex:1;
+    padding: 12px;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1rem;
+    color: #252436;
+    
+    border: 2px solid #252436;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    box-shadow: 3px 3px 0 #252436;
+}
+
+.form-actions button[type="submit"] {
+    background-color: #B9B1F4;
+}
+
+.form-actions button[type="button"] {
+    background-color: #f9db89;
+}
+
+.form-actions button:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 #252436;
+}
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+}
