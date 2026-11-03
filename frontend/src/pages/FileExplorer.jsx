@@ -6,15 +6,24 @@ function FileExplorer() {
     const [files, setFiles] = useState([]);
     const [Loading, setLoading] = useState(true);
 
-    
 
-    setLoading(false);
 
     useEffect(() => {
+        setLoading(true);
         fetch(`http://localhost:5000/api/projects/${id}/files`)
-        .then(response => response.json())
-        .then(data => setFiles(data))
-    })
+            .then(response => {
+                if (!response.ok) throw new Error('Failed to load files');
+                return response.json();
+            })
+            .then (data => {
+                setFiles(data.files);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            })
+            .finally(() => {})
+                setLoading(false);
+            }, [])
     return (
         <main>
             <h1>File Explorer</h1>
