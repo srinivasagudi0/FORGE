@@ -79,9 +79,12 @@ function FileExplorer() {
                     <h2>{selectedFile}</h2>
                     <button onClick={()=> selectedFile(null)}>Close File</button>
                     {fileError && <p>{fileError}</p>}
-                    <pre>
-                        <code>{fileContent}</code>
-                    </pre>
+                    <textarea
+                        value={fileContent}
+                        onChange={(e) => setFileContent(e.target.value)}
+                        spellCheck="false"
+                        rows={20}
+                        />
                 </section>
             )}
            

@@ -112,5 +112,30 @@ def see_file(project_id):
 
     return jsonify({"content": content, "name": Path(file_path).name, "path": file_path})
 
+@app.route('/api/projects/<int:project_id>/file/save', methods=['POST'])
+def save_file(project_id):
+    file_path = request.get_json().get('path', '')
+    content = request.get_json().get('content', '')
+    project = get_project_by_id(project_id)
+    if not project:
+        return {"error": "Project not found."}, 404
+    if not file_path:
+        return jsonify({"error": 'File path not provided.'}), 400
+    if not isinstance(content, str):
+        return jsonify({"error": 'Content must be a string.'}), 400
+    root =Path(project[2]).expanduser().resolve()
+    target = (root / file_path).resolve()
+    if not target.is_relative_to(root):
+        return jsonify({"error": 'Access denied.'}), 403
+    if not target.is_file():
+        return jsonify({"error": 'Target path is not a file.'}), 400
+    if len(content.encode('utf-8')) > 1024 * 1024:
+        return jsonify({"error": 'Content too large.'}), 413
+    try:
+        with open(target, 'w', encoding='utf-8') as f:
+            f.write(content)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    return jsonify({"message": "File saved successfully."})
 if __name__ == '__main__':
     app.run()
