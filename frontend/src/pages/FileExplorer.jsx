@@ -1,10 +1,16 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function FileExplorer() {
     const { id } = useParams();
     const [files, setFiles] = useState([]);
     const [Loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    function goBack() {
+        navigate(-1);
+    }
 
 
 
@@ -21,9 +27,10 @@ function FileExplorer() {
             .catch(error => {
                 console.error('Error:', error);
             })
-            .finally(() => {})
+            .finally(() => {
                 setLoading(false);
-            }, [])
+            })
+    }, [id]);
     return (
         <main>
             <h1>File Explorer</h1>
@@ -31,7 +38,6 @@ function FileExplorer() {
             <button onClick={goBack}>Back</button>
             {Loading && <p>Loading files...</p>}
             {error && <p>{error}</p>}
-            
         </main>
     )
 }
