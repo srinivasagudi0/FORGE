@@ -22,11 +22,7 @@ function FileExplorer() {
             <button onClick={goBack}>Back</button>
             {Loading && <p>Loading files...</p>}
             {error && <p>{error}</p>}
-            <ul>
-                {files.map(file)=> {
-                    <li key={file.name}>{file.name}</li>
-                }}
-            </ul>
+            
         </main>
     )
 }

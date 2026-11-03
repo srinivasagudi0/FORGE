@@ -95,11 +95,10 @@ function Dashboard() {
     } else {
         return (
         <main>
-            <h1>Dashboard</h1>
-            <p>{status}</p>
+            <h1 className="dashboard-title">Dashboard</h1>
             <ul>
                 {projects.map((project) => (
-                    <li key={project[0]}>
+                    <li className="project-list" key={project[0]}>
                         <h2>{project[1]}</h2>
                         <p>{project[2]}</p>
                         <p>{project[3]}</p>
