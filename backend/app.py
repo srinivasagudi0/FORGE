@@ -87,5 +87,28 @@ def list_project_files(project_id):
 
     return jsonify({"files": files})
 
+@app.route('/api/projects/<int:project_id>/file')
+def see_file(project_id):
+    project_id = request.view_args['project_id']
+    file_path = request.args.get('path', '')
+    project = get_project_by_id(project_id)
+    if not project:
+        return {"error": "Project not found."}, 404
+    if not file_path:
+        return {"error": "File path not provided."}, 400
+    root = Path(project[2]).expanduser().resolve()
+    target = (root / file_path).resolve()
+    if not Path(file_path).is_relative_to(root):
+        return {"error": "Access denied."}, 403
+    if not target.is_file():
+        return {"error": "Target path is not a file."}, 400
+    if target.stat().st_size > 10 * 1024 * 1024:
+        return {"error": "File too large."}, 413
+
+    with open(root / file_path, 'r') as f:
+        content = f.read()
+
+    return jsonify({"content": content, "name": Path(file_path).name, "path": file_path})
+
 if __name__ == '__main__':
     app.run()
