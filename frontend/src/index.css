@@ -13,7 +13,10 @@ main {
     font-size: 4rem;
     font-weight: 900;
     margin: 2rem 0;
-    text-decoration: none;
+    text-decoration: underline;
+    text-underline-offset: 8px;
+    text-decoration-color: #252436;
+    text-decoration-style: wavy;
     letter-spacing: -2px;
 }
 
