@@ -8,12 +8,27 @@ function FileExplorer() {
     const [Loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const [currentPath, setCurrentPath] = useState("");
 
     function goBack() {
         navigate(-1);
     }
 
+    function goUp() {
+        if (!currentPath) return;
 
+        const folders = currentPath.split("/");
+        folders.pop();
+
+        setCurrentPath(folders.join("/"));
+    }
+
+    function openFolder(folderName) {
+        const newPath = currentPath
+            ? `${currentPath}/${folderName}`
+            : folderName;
+        setCurrentPath(newPath);
+    }
 
     useEffect(() => {
         setLoading(true);
@@ -31,7 +46,7 @@ function FileExplorer() {
             .finally(() => {
                 setLoading(false);
             })
-    }, [id]);
+    }, [id, currentPath]);
     return (
         <main>
             <h1>File Explorer</h1>
@@ -39,10 +54,17 @@ function FileExplorer() {
             <button onClick={goBack}>Back</button>
             {Loading && <p>Loading files...</p>}
             {error && <p>{error}</p>}
+            <p>Current Path: /{currentPath}</p>
+            <button onClick={goUp} disabled={!currentPath}>⬆Parent Folder</button>
+            
             <ul>
                 {files.map((file) => (
                     <li key={file.path}>
-                        {file.is_dir ? "📁" : "📄"} {file.name}
+                        {file.is_dir ?(
+                            <button onClick={() => openFolder(file.name)}>📁 {file.name}</button>
+                        ): (
+                            <span>📄 {file.name}</span>
+                        )}
                     </li>
                 ))}
             </ul>
