@@ -1,6 +1,7 @@
+import os
 from flask import Flask, request, jsonify
 import flask_cors
-from app_db import delete_project, init_db, create_project, get_projects
+from app_db import delete_project, init_db, create_project, get_projects, get_project_by_id
 
 app = Flask(__name__)
 CORS = flask_cors.CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -49,6 +50,18 @@ def remove_project():
         return {"message": "Project deleted successfully."}
     except Exception as e:
         return {"error": str(e)}, 400
-    
+
+@app.route('/api/projects/<int:project_id>/files')
+def list_project_files(project_id):
+    try:
+        project = get_project_by_id(project_id)
+    if not project:
+        return {"error": "Project not found."}, 404
+    folder_path = project[2]  # Assuming folder_path is the third column in the
+    if not os.path.isdir(folder_path):
+        return {"error": "Project folder path does not exist."}, 400
+    cont = os.listdir(folder_path)
+    return jsonify({"files": cont})
+
 if __name__ == '__main__':
     app.run()

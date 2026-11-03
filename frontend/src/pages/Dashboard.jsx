@@ -1,7 +1,13 @@
-
-import {useState, useEffect} from 'react'
+import { useNavigate } from 'react-router-dom';
+import {useState, useEffect} from 'react';
 
 function Dashboard() {
+    const navigate = useNavigate();
+
+    function openFiles(id) {
+        console.log("Open Files")
+        navigate(`/explorer/${id}`);
+    }
 
     function AddProject(e) {
         e.preventDefault()
@@ -100,6 +106,7 @@ function Dashboard() {
                         <p>{project[4]}</p>
                         <p>{project[5]}</p>
                         <button onClick={() => deleteProject(project[0])}>Delete</button>
+                        <button onClick={() => openFiles(projects[0])}>Open Files</button>
                     </li>))}
             </ul>
 
