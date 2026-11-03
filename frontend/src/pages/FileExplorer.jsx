@@ -7,6 +7,7 @@ function FileExplorer() {
     const [files, setFiles] = useState([]);
     const [Loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     function goBack() {
         navigate(-1);
@@ -38,6 +39,13 @@ function FileExplorer() {
             <button onClick={goBack}>Back</button>
             {Loading && <p>Loading files...</p>}
             {error && <p>{error}</p>}
+            <ul>
+                {files.map((file) => (
+                    <li key={file.path}>
+                        {file.is_dir ? "📁" : "📄"} {file.name}
+                    </li>
+                ))}
+            </ul>
         </main>
     )
 }

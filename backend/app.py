@@ -83,7 +83,7 @@ def list_project_files(project_id):
             "path": str(item.relative_to(root))
         })
 
-    files.sort(key=lambda item: (not item["is_directory"], item["name"].lower()))
+    files.sort(key=lambda item: (not item["is_dir"], item["name"].lower()))
 
     return jsonify({"files": files})
 
