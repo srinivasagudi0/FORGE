@@ -26,7 +26,7 @@ function FileExplorer() {
                 throw new Error('Failed to load file content');
             }
             const data = await response.json();
-            setSelectedFile(data.name);
+            setSelectedFile(data.path);
             setFileContent(data.content);
         } catch (error) {
             console.error('Error:', error);
@@ -45,6 +45,35 @@ function FileExplorer() {
 
     function openFolder(folderName) {
         setCurrentPath(currentPath ? `${currentPath}/${folderName}` : folderName);
+    }
+
+    async function saveFile() {
+        if (!selectedFile) return;
+        try {
+            const response = await fetch(
+                `http://localhost:5000/api/projects/${id}/file/save`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        path: selectedFile,
+                        content: fileContent
+                    })
+                }
+            );
+
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.error || "Failed to save file");
+            }
+
+            alert("File saved successfully!");
+
+    } catch (error) {
+        alert(error.message);
+    }
     }
 
     useEffect(() => {
@@ -77,7 +106,8 @@ function FileExplorer() {
             {selectedFile && (
                 <section className="file-preview">
                     <h2>{selectedFile}</h2>
-                    <button onClick={()=> selectedFile(null)}>Close File</button>
+                    <button onClick={()=> setSelectedFile(null)}>Close File</button>
+                    <button onClick={saveFile()}>Save File</button>
                     {fileError && <p>{fileError}</p>}
                     <textarea
                         value={fileContent}
