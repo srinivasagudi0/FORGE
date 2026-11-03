@@ -10,8 +10,28 @@ function FileExplorer() {
     const navigate = useNavigate();
     const [currentPath, setCurrentPath] = useState("");
 
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [fileContent, setFileContent] = useState("");
+    const[fileError, setFileError] = useState("");
+
+
     function goBack() {
         navigate(-1);
+    }
+
+    async function openFile(file) {
+        try {
+            const response = await fetch(`http://localhost:5000/api/projects/${id}/file?path=${encodeURIComponent(file.path)}`);
+            if (!response.ok) {
+                throw new Error('Failed to load file content');
+            }
+            const data = await response.json();
+            setSelectedFile(data.name);
+            setFileContent(data.content);
+        } catch (error) {
+            console.error('Error:', error);
+            setFileError(error.message);
+        }
     }
 
     function goUp() {
@@ -51,16 +71,27 @@ function FileExplorer() {
             <button onClick={goBack}>Back</button>
             {Loading && <p>Loading files...</p>}
             {error && <p>{error}</p>}
+            {fileError && <p>{fileError}</p>}
             <p>Current Path: /{currentPath}</p>
             <button onClick={goUp} disabled={!currentPath}>⬆Parent Folder</button>
-            
+            {selectedFile && (
+                <section className="file-preview">
+                    <h2>{selectedFile}</h2>
+                    <button onClick={()=> selectedFile(null)}>Close File</button>
+                    {fileError && <p>{fileError}</p>}
+                    <pre>
+                        <code>{fileContent}</code>
+                    </pre>
+                </section>
+            )}
+           
             <ul>
                 {files.map((file) => (
                     <li key={file.path}>
                         {file.is_dir ?(
                             <button onClick={() => openFolder(file.name)}>📁 {file.name}</button>
                         ): (
-                            <span>📄 {file.name}</span>
+                            <button onClick={() => openFile(file)}>📄 {file.name}</button>
                         )}
                     </li>
                 ))}

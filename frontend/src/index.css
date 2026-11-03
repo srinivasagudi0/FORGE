@@ -219,3 +219,16 @@ ul {
     gap: 12px;
     margin-top: 15px;
 }
+
+.file-preview {
+    margin-top: 20px;
+    padding: 20px;
+    border: 2px solid #252436;
+    border-radius: 8px;
+}
+
+.file-preview pre {
+    overflow-x: auto;
+    white-space: pre-wrap;
+    tab-size: 4;
+}

@@ -98,15 +98,17 @@ def see_file(project_id):
         return {"error": "File path not provided."}, 400
     root = Path(project[2]).expanduser().resolve()
     target = (root / file_path).resolve()
-    if not Path(file_path).is_relative_to(root):
+    if not target.is_relative_to(root):
         return {"error": "Access denied."}, 403
     if not target.is_file():
         return {"error": "Target path is not a file."}, 400
     if target.stat().st_size > 10 * 1024 * 1024:
         return {"error": "File too large."}, 413
 
-    with open(root / file_path, 'r') as f:
+    with open( target, 'r', encoding='utf-8') as f:
         content = f.read()
+        if content is None:
+            content= "File is empty or could not be read."
 
     return jsonify({"content": content, "name": Path(file_path).name, "path": file_path})
 
