@@ -107,7 +107,7 @@ function FileExplorer() {
                 <section className="file-preview">
                     <h2>{selectedFile}</h2>
                     <button onClick={()=> setSelectedFile(null)}>Close File</button>
-                    <button onClick={saveFile()}>Save File</button>
+                    <button onClick={saveFile}>Save File</button>
                     {fileError && <p>{fileError}</p>}
                     <textarea
                         value={fileContent}
