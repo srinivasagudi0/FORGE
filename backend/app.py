@@ -106,7 +106,10 @@ def see_file(project_id):
         return {"error": "File too large."}, 413
 
     with open( target, 'r', encoding='utf-8') as f:
-        content = f.read()
+        try:
+            content = target.read_text(encoding='utf-8')
+        except Exception as e:
+            return {"error": str(e)}, 500
         if content is None:
             content= "File is empty or could not be read."
 

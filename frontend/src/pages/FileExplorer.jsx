@@ -92,7 +92,7 @@ function FileExplorer() {
             .finally(() => {
                 setLoading(false);
             })
-    }, [id, currentPath]);
+    }, [id, currentPath]); 
     return (
         <main>
             <h1>File Explorer</h1>
