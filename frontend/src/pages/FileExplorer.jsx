@@ -51,7 +51,7 @@ function FileExplorer() {
             setTerminalOutput("Error occurred while running command.");
         }
         finally {
-            setTerminalLoading(false);aghg
+            setTerminalLoading(false);
         }
     }
 

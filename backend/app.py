@@ -1,3 +1,4 @@
+from logging import root
 import shlex
 import subprocess
 from pathlib import Path
@@ -155,7 +156,10 @@ def run_terminal(project_id):
         return jsonify({"error": "Command required."}), 400
 
     root = Path(project[2]).expanduser().resolve()
-
+    with open("a.txt", "w") as f:
+        f.write(f"PROJECT PATH: {root}\n")
+        f.write(f"EXISTS: {root.exists()}\n")
+        f.write(f"IS DIRECTORY: {root.is_dir()}\n")
     if not root.is_dir():
         return jsonify({"error": "Project folder path is not a directory."}), 400
     try:
