@@ -231,6 +231,16 @@ def terminal_input(data):
     if fd is not None:
         os.write(fd, data["input"].encode())
 
+@socketio.on("disconnect")
+def terminal_disconnect():
+    fd = terminal_sessions.pop(request.sid, None)
+    if fd is not None:
+        try:
+            os.write(fd, b"exit\n")
+            os.close(fd)
+        except OSError:
+            pass
+
 
 if __name__ == '__main__':
-    socketio.run(app, host='127:0.0.1', port=5000, debug=False)
+    socketio.run(app, host='127.0.0.1', port=5000, debug=False)

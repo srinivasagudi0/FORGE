@@ -26,7 +26,7 @@ function FileExplorer() {
     }
 
     async function runCommand() {
-        if (!command.trim()) return;
+        if (!command.trim() || !Socket.current?.connected) return;
         Socket.current.emit("terminal_input", {
             input: command + "\n"
         });
