@@ -151,7 +151,7 @@ def run_terminal(project_id):
     if not project:
         return jsonify({"error": "Project not found."}), 404
 
-    if isinstance(command, str) or not command.strip():
+    if not isinstance(command, str) or not command.strip():
         return jsonify({"error": "Command required."}), 400
 
     root = Path(project[2]).expanduser().resolve()

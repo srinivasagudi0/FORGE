@@ -36,13 +36,22 @@ function FileExplorer() {
                 body: JSON.stringify({"command": command})
 
             })
+            const data = await response.json();
+            if (!response.ok){
+                throw new Error(data.error || "Failed to run command.")
+            }
+            setTerminalOutput(
+                (data.stdout || "") +
+                (data.stderr || "") +
+                `\nExit code: ${data.returncode}`
+            );
         }
         catch (error) {
             console.error('Error:', error);
             setTerminalOutput("Error occurred while running command.");
         }
         finally {
-            setTerminalLoading(false);
+            setTerminalLoading(false);aghg
         }
     }
 
@@ -165,9 +174,7 @@ function FileExplorer() {
                         type="text"
                         placeholder="Enter a command..."
                         value={command}
-                        onChange={(e)=> {
-                            if(e.key === "Enter") {runCommand();}
-                        }}
+                        onChange={(e) => setCommand(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { runCommand(); } }}
                     />
                     <button
                         onClick={runCommand}>
