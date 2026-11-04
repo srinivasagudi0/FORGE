@@ -1,9 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { io } from "socket.io-client";
+import { useRef } from "react";
 
 function FileExplorer() {
     const { id } = useParams();
+    const Socket = useRef(null);
     const [files, setFiles] = useState([]);
     const [Loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -23,37 +26,30 @@ function FileExplorer() {
     }
 
     async function runCommand() {
-        if(!command.trim() || terminalLoading) return;
-
-        setTerminalLoading(true);
-        setTerminalOutput("Running...");
-        try {
-            const response = await fetch(`http://localhost:5000/api/projects/${id}/terminal`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({"command": command})
-
-            })
-            const data = await response.json();
-            if (!response.ok){
-                throw new Error(data.error || "Failed to run command.")
-            }
-            setTerminalOutput(
-                (data.stdout || "") +
-                (data.stderr || "") +
-                `\nExit code: ${data.returncode}`
-            );
-        }
-        catch (error) {
-            console.error('Error:', error);
-            setTerminalOutput("Error occurred while running command.");
-        }
-        finally {
-            setTerminalLoading(false);
-        }
+        if (!command.trim()) return;
+        Socket.current.emit("terminal_command", {
+            input: command + "\n"
+        });
+        setCommand("");
     }
+
+    useEffect(() => {
+        const connection = io("http://localhost:5000");
+        Socket.current = connection;
+
+        connection.on("connect", () => {
+            connection.emit("terminal_start",{
+                project_id: Number(id)
+            });
+        });
+        connection.on("terminal_output", (data) => {
+            setTerminalOutput((prevOutput) => prevOutput + data);
+        });
+        return () => {
+            connection.disconnect();
+            Socket.current = null;
+        };
+    }, [id]);
 
     async function openFile(file) {
         try {

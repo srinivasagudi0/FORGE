@@ -13,7 +13,7 @@ import threading
 import fcntl
 import termios
 import struct
-import flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO, emit
 
 
 app = Flask(__name__)
@@ -225,7 +225,7 @@ def terminal_input(data):
 
     if fd is not None:
         os.write(fd, data["input"].encode())
-
+    
 
 if __name__ == '__main__':
     app.run()
