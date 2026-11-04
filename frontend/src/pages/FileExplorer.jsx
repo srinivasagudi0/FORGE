@@ -14,9 +14,36 @@ function FileExplorer() {
     const [fileContent, setFileContent] = useState("");
     const[fileError, setFileError] = useState("");
 
+    const [command, setCommand] = useState("");
+    const [terminalOutput, setTerminalOutput] = useState("");
+    const [terminalLoading, setTerminalLoading] = useState(false);
 
     function goBack() {
         navigate(-1);
+    }
+
+    async function runCommand() {
+        if(!command.trim() || terminalLoading) return;
+
+        setTerminalLoading(true);
+        setTerminalOutput("Running...");
+        try {
+            const response = await fetch(`http://localhost:5000/api/projects/${id}/terminal`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({"command": command})
+
+            })
+        }
+        catch (error) {
+            console.error('Error:', error);
+            setTerminalOutput("Error occurred while running command.");
+        }
+        finally {
+            setTerminalLoading(false);
+        }
     }
 
     async function openFile(file) {
@@ -129,13 +156,24 @@ function FileExplorer() {
                     </li>
                 ))}
             </ul>
-            <section>
-                <h2>Terminal Panel</h2>
-                <input type="text" placeholder="Enter command..." />
-                <div>
-                    <pre id="terminal-output"></pre>
+            <section className="terminal-panel">
+                <h2>FORGE Terminal</h2>
+
+                <div className="terminal-ouput">
+                    <pre>{terminalOutput || "FORGE Terminal — Ready"}</pre>
+                    <input
+                        type="text"
+                        placeholder="Enter a command..."
+                        value={command}
+                        onChange={(e)=> {
+                            if(e.key === "Enter") {runCommand();}
+                        }}
+                    />
+                    <button
+                        onClick={runCommand}>
+                            {terminalLoading ? "Running..." : "Run Command"}
+                    </button>
                 </div>
-                <button>Run</button>
             </section>
         </main>
     )

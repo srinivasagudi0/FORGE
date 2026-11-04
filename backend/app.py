@@ -1,4 +1,4 @@
-import shelx
+
 import subprocess
 from pathlib import Path
 import os
@@ -159,7 +159,7 @@ def run_terminal(project_id):
     if not root.is_dir():
         return jsonify({"error": "Project folder path is not a directory."}), 400
     try:
-        result = subprocess.run(shelx.split(command), cwd=root, capture_output=True, text=True, shell=False)
+        result = subprocess.run((command), cwd=root, capture_output=True, text=True, shell=False)
         return jsonify({
             "stdout": result.stdout,
             "stderr": result.stderr,
@@ -167,7 +167,6 @@ def run_terminal(project_id):
         })
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
 
 
 
