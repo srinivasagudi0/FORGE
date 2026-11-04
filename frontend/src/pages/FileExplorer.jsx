@@ -27,7 +27,7 @@ function FileExplorer() {
 
     async function runCommand() {
         if (!command.trim()) return;
-        Socket.current.emit("terminal_command", {
+        Socket.current.emit("terminal_input", {
             input: command + "\n"
         });
         setCommand("");
@@ -43,7 +43,7 @@ function FileExplorer() {
             });
         });
         connection.on("terminal_output", (data) => {
-            setTerminalOutput((prevOutput) => prevOutput + data);
+            setTerminalOutput((prevOutput) => prevOutput + data.output);
         });
         return () => {
             connection.disconnect();
