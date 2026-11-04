@@ -132,8 +132,10 @@ function FileExplorer() {
             <section>
                 <h2>Terminal Panel</h2>
                 <input type="text" placeholder="Enter command..." />
+                <div>
+                    <pre id="terminal-output"></pre>
+                </div>
                 <button>Run</button>
-                <pre id="terminal-output"></pre>
             </section>
         </main>
     )

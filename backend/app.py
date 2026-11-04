@@ -1,3 +1,5 @@
+import shelx
+import subprocess
 from pathlib import Path
 import os
 from flask import Flask, request, jsonify
@@ -140,5 +142,34 @@ def save_file(project_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     return jsonify({"message": "File saved successfully."})
+
+@app.route('/api/projects/<int:project_id>/terminal', methods=['POST'])
+def run_terminal(project_id):
+    data = request.get_json(silent=True) or {}
+    command = data.get('command', '')
+    project = get_project_by_id(project_id)
+    if not project:
+        return jsonify({"error": "Project not found."}), 404
+
+    if isinstance(command, str) or not command.strip():
+        return jsonify({"error": "Command required."}), 400
+
+    root = Path(project[2]).expanduser().resolve()
+
+    if not root.is_dir():
+        return jsonify({"error": "Project folder path is not a directory."}), 400
+    try:
+        result = subprocess.run(shelx.split(command), cwd=root, capture_output=True, text=True, shell=False)
+        return jsonify({
+            "stdout": result.stdout,
+            "stderr": result.stderr,
+            "returncode": result.returncode
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+
+
 if __name__ == '__main__':
     app.run()
