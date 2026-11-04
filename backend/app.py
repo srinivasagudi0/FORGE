@@ -190,6 +190,41 @@ def run_terminal(project_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+def read_terminal(session_id, fd):
+    while True:
+        try:
+            output = os.read(fd, 4096).decode(errors='replace')
+            socketio.emit('terminal_output', {'session_id': session_id, 'output': output})
+        except OSError:
+            break
+
+
+@socketio.on('terminal_start')
+def start_terminal(data):
+    project_id = get_project_by_id(data["project_id"])
+    if not project_id:
+        return
+    folder = Path(project_id[2]).expanduser().resolve()
+    if not folder.is_dir():
+        return
+
+    pid, fd = pty.fork()
+    if pid == 0:
+        os.chdir(folder)
+        os.execl("/bin/zsh", "zsh", "-i")
+        terminal_sessions[project_id] = fd
+        threading.Thread(
+            target=read_terminal,
+            rgs=(project_id, fd),
+            daemon=True
+        ).start()
+
+@socketio.on('terminal_input')
+def terminal_input(data):
+    fd = terminal_sessions.get(data["project_id"])
+
+    if fd is not None:
+        os.write(fd, data["input"].encode())
 
 
 if __name__ == '__main__':
