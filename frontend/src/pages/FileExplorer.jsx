@@ -2,10 +2,14 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
+import { Terminal } from "xterm";
+import {FitAddon} from "xterm-addon-fit";
+import "@xterm/xterm/css/xterm.css";
 import { useRef } from "react";
 
 function FileExplorer() {
     const { id } = useParams();
+    const terminalRef = useRef(null);
     const Socket = useRef(null);
     const [files, setFiles] = useState([]);
     const [Loading, setLoading] = useState(true);
@@ -34,19 +38,40 @@ function FileExplorer() {
     }
 
     useEffect(() => {
+        const terminal = new Terminal({
+            cursorBlink: true,
+            fontSize: 14,
+            theme: {background: "#111111", foreground: "#ffffff"}
+        });
+
+        const fitAddon = new FitAddon();
+        terminal.loadAddon(fitAddon);
+
+        terminal.open(terminalRef.current);
+        fitAddon.fit();
+
         const connection = io("http://localhost:5000");
         Socket.current = connection;
 
         connection.on("connect", () => {
-            connection.emit("terminal_start",{
+            connection.emit("terminal_start", {
                 project_id: Number(id)
             });
         });
+
         connection.on("terminal_output", (data) => {
-            setTerminalOutput((prevOutput) => prevOutput + data.output);
+            terminal.write(data.output);
         });
+
+        terminal.onData((input) => {
+            connection.emit("terminal_input", {
+                input: input
+            });
+        });
+
         return () => {
             connection.disconnect();
+            terminal.dispose();
             Socket.current = null;
         };
     }, [id]);
