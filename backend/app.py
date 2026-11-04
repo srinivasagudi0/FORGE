@@ -6,9 +6,20 @@ import os
 from flask import Flask, request, jsonify
 import flask_cors
 from app_db import delete_project, init_db, create_project, get_projects, get_project_by_id
+import pty
+import select
+import signal
+import threading
+import fcntl
+import termios
+import struct
+import flask_socketio import SocketIO, emit
+
 
 app = Flask(__name__)
 CORS = flask_cors.CORS(app, resources={r"/api/*": {"origins": "*"}})
+socketio = SocketIO(app, cors_allowed_origins="*")
+terminal_sessions = {}
 init_db()
 
 @app.route('/api/health')
