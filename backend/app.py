@@ -216,7 +216,10 @@ def start_terminal(data):
     if pid == 0:
         os.chdir(folder)
         os.execl("/bin/zsh", "zsh", "-i")
-    terminal_sessions[request.sid] = fd
+    terminal_sessions[request.sid] = {
+        "pid": pid,
+        "fd": fd
+    }
     threading.Thread(
         target=read_terminal,
         args=(request.sid, fd),
@@ -226,21 +229,60 @@ def start_terminal(data):
 
 @socketio.on("terminal_input")
 def terminal_input(data):
-    fd = terminal_sessions.get(request.sid)
+    session = terminal_sessions.get(request.sid)
 
-    if fd is not None:
-        os.write(fd, data["input"].encode())
+    if session:
+        os.write(session["fd"], data["input"].encode())
 
 @socketio.on("disconnect")
 def terminal_disconnect():
-    fd = terminal_sessions.pop(request.sid, None)
-    if fd is not None:
+    session = terminal_sessions.pop(request.sid, None)
+    if session:
         try:
-            os.write(fd, b"exit\n")
-            os.close(fd)
+            os.killpg(session["pid"], signal.SIGHUP)
+        except ProcessLookupError:
+            pass
+        try:
+            os.close(session["fd"])
         except OSError:
             pass
+@app.route("/api/projects/<int:project_id>/git")
+def git_status(project_id):
+    project = get_project_by_id(project_id)
 
+    if not project:
+        return jsonify({"error": "Project not found."}), 404
+
+    folder = Path(project[2]).expanduser().resolve()
+
+    if not folder.is_dir():
+        return jsonify({"error": "Project folder path is not a directory."}), 400
+
+    def git(*args):
+        result = subprocess.run(
+            ["git", "-C", str(folder), *args],
+            capture_output=True,
+            text=True,
+            timeout=10
+        )
+        return result
+    try:
+        check = git("rev-parse", "--show-toplevel")
+        
+        if check.returncode !=0:
+            return jsonify({"error": "Not a git reppository."}), 400
+        if not check.stdout.strip():
+            return jsonify({"error": "Not a git repository."}), 400
+        branch = git("rev-", "--show-current")
+        changes = git("status", "--short")
+
+        return jsonify({
+            "is_git_repo": True,
+            "branch": branch.stdout.strip() or "detached HEAD",
+            "changes": changes.stdout.strip().splitlines()
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     socketio.run(app, host='127.0.0.1', port=5000, debug=False)
