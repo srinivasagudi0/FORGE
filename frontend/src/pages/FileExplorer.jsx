@@ -2,14 +2,14 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
-import { Terminal } from "xterm";
-import {FitAddon} from "xterm-addon-fit";
+import { Terminal } from "@xterm/xterm";
+import {FitAddon} from "@xterm/addon-fit";
 import "@xterm/xterm/css/xterm.css";
 import { useRef } from "react";
 
 function FileExplorer() {
     const { id } = useParams();
-    const terminalRef = useRef(null);
+    const terminalRef = useRef(null);    
     const Socket = useRef(null);
     const [files, setFiles] = useState([]);
     const [Loading, setLoading] = useState(true);
@@ -189,18 +189,19 @@ function FileExplorer() {
             <section className="terminal-panel">
                 <h2>FORGE Terminal</h2>
 
-                <div className="terminal-ouput">
+                <div 
+                    ref={terminalRef}
+                    style={{
+                        width: "100%",
+                        height: "350px",
+                        background: "#111111",
+                        color: "#ffffff",
+                        padding: "10px",
+                        boxSizing: "border-box",
+                        boxShadow: "inset 0 0 10px rgba(0, 0, 0, 0.5)",
+                        }}
+                    >
                     <pre>{terminalOutput || "FORGE Terminal — Ready"}</pre>
-                    <input
-                        type="text"
-                        placeholder="Enter a command..."
-                        value={command}
-                        onChange={(e) => setCommand(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { runCommand(); } }}
-                    />
-                    <button
-                        onClick={runCommand}>
-                            {terminalLoading ? "Running..." : "Run Command"}
-                    </button>
                 </div>
             </section>
         </main>
