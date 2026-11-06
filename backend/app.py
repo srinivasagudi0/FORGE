@@ -54,8 +54,6 @@ def make_project():
         return {"error": "Missing required fields."}, 400
     if not Path(folder_path).expanduser().resolve().is_dir():
         return {"error": "Provided folder path is not a directory."}, 400
-    if not check_git_in_project(folder_path):
-        return {"error": "Provided folder is not a Git repository."}, 400
     try:
         create_project(name, folder_path, language, date, last_updated)
     except Exception as e:

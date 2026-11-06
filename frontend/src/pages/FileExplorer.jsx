@@ -169,7 +169,13 @@ function FileExplorer() {
                 onClick={goBack}
                 >
                 ← Dashboard</button>
+                <button
+                className="forge-btn green"
+                onClick={() => navigate(`/insights/${id}`)}
+                >
+                Insights</button>
             </div>
+            
                 </header>
 
             <section className="forge-path">
