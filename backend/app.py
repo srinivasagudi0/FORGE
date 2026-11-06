@@ -40,6 +40,8 @@ def make_project():
     last_updated = data.get('last_updated')
     if not all([name, folder_path, language, date, last_updated]):
         return {"error": "Missing required fields."}, 400
+    if not folder_path.is_dir():
+        return {"error": "Folder path is not a directory"}
     try:
         create_project(name, folder_path, language, date, last_updated)
     except Exception as e:

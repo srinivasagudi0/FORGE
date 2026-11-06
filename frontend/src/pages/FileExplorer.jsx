@@ -6,6 +6,7 @@ import { Terminal } from "@xterm/xterm";
 import {FitAddon} from "@xterm/addon-fit";
 import "@xterm/xterm/css/xterm.css";
 import { useRef } from "react";
+import "./FileExplorer.css"
 
 function FileExplorer() {
     const { id } = useParams();
@@ -150,62 +151,157 @@ function FileExplorer() {
                 setLoading(false);
             })
     }, [id, currentPath]); 
-    return (
-        <main>
-            <h1>File Explorer</h1>
-            <p>Project ID: {id}</p>
-            <button onClick={goBack}>Back</button>
-            {Loading && <p>Loading files...</p>}
-            {error && <p>{error}</p>}
-            {fileError && <p>{fileError}</p>}
-            <p>Current Path: /{currentPath}</p>
-            <button onClick={goUp} disabled={!currentPath}>⬆Parent Folder</button>
-            {selectedFile && (
-                <section className="file-preview">
-                    <h2>{selectedFile}</h2>
-                    <button onClick={()=> setSelectedFile(null)}>Close File</button>
-                    <button onClick={saveFile}>Save File</button>
-                    {fileError && <p>{fileError}</p>}
+    
+        return (
+            <main className="forge-explorer">
+            <div className="forge-shell">
+
+                <header className="forge-header">
+            <div>
+                <span className="forge-eye">✦ YOUR DEV WORKSPACE</span>
+                <h1>File Explorer <span>✦</span></h1>
+                <p>Manage your project, edit files, and run commands.</p>
+            </div>
+            <div className="forge-header-actions">
+                <span className="forge-id">Project #{id}</span>
+                <button
+                className="forge-btn purple"
+                onClick={goBack}
+                >
+                ← Dashboard</button>
+            </div>
+                </header>
+
+            <section className="forge-path">
+                <div className="current-location">
+                <span>CURRENT LOCATION</span>
+                <code>/{currentPath || ""}</code>
+                </div>
+                <button
+                    className="forge-btn yellow"
+                    onClick={goUp}
+                    disabled={!currentPath}
+                >
+                    ↑ Go Up
+                </button>
+            </section>
+            
+            <div className="forge-workspace">
+                <section className="forge-panel forge-files">
+                <div className="forge-panel-header">
+                    <h2>Project Files</h2>
+                    <span className="forge-count">
+                    {files.length} items
+                    </span>
+                </div>
+                {Loading && <p>Loading files...</p>}
+                {error && <p className="forge-error">{error}</p>}
+                {!Loading && files.length === 0 && (
+                <p className="forge-empty-files">This folder is empty.</p>
+                )}
+                <ul className="forge-file-list">
+                {files.map((file) => (
+                <li key={file.path}>
+                    <button
+                        className={
+                        "forge-file-item " +
+                        (file.is_dir ? "folder" : "file") +
+                        (selectedFile === file.path ? " selected" : "")
+                        }
+                        onClick={() =>
+                        file.is_dir
+                        ? openFolder(file.name)
+                        : openFile(file)
+                    }>
+                    <span className="forge-file-icon">{file.is_dir ? "📁" : "📄"}</span>
+                    <span className="forge-file-name">{file.name}</span>
+                    <span className="forge-file-arrow">→</span>
+                    </button>
+                </li>
+                ))}
+                </ul>
+            </section>
+            <section className="forge-panel forge-editor">
+                <div className="forge-panel-header">
+                    <h2>✏ File Editor</h2>
+                    <span className="forge-tag">EDITOR</span>
+                </div>
+                {selectedFile ? (
+                    <div className="forge-editor-content">
+                        <div className="forge-open-file">
+                            <span>📝</span>
+                            <strong>{selectedFile}</strong>
+                        </div>
                     <textarea
+                        className="forge-code-input"
                         value={fileContent}
                         onChange={(e) => setFileContent(e.target.value)}
-                        spellCheck="false"
-                        rows={20}
-                        />
+                        spellCheck={false}
+                    />
+                    {fileError && (
+                    <p className="forge-error">{fileError}</p>
+                    )}
+                    <div className="forge-editor-actions">
+                        <button
+                        className="forge-btn yellow"
+                        onClick={() => setSelectedFile(null)}
+                        >
+                        Close
+                        </button>
+                        <button
+                        className="forge-btn green"
+                        onClick={saveFile}
+                        >
+                            🆕 Save File
+                        </button>
+                    </div>
+                    </div>
+                    ) : (
+                    <div className="forge-empty-editor">
+                    <div className="forge-empty-icon">🚫</div>
+                        <h3>Nothing open yet!</h3>
+                        <p>Select a file to start editing.</p>
+                    </div>
+                    )}
                 </section>
-            )}
-           
-            <ul>
-                {files.map((file) => (
-                    <li key={file.path}>
-                        {file.is_dir ?(
-                            <button onClick={() => openFolder(file.name)}>📁 {file.name}</button>
-                        ): (
-                            <button onClick={() => openFile(file)}>📄 {file.name}</button>
-                        )}
-                    </li>
-                ))}
-            </ul>
-            <section className="terminal-panel">
-                <h2>FORGE Terminal</h2>
-
-                <div 
-                    ref={terminalRef}
-                    style={{
-                        width: "100%",
-                        height: "350px",
-                        background: "#111111",
-                        color: "#ffffff",
-                        padding: "10px",
-                        boxSizing: "border-box",
-                        boxShadow: "inset 0 0 10px rgba(0, 0, 0, 0.5)",
-                        }}
-                    >
-                    <pre>{terminalOutput || "FORGE Terminal — Ready"}</pre>
+            </div>
+            <section className="forge-panel forge-terminal-panel">
+            <div className="forge-panel-header">
+                <div className="forge-terminal-heading">
+                    <span className="forge-live-dot"></span>
+                    <h2>FORGE Terminal</h2>
                 </div>
+                <button
+                    className="forge-btn red"
+                    onClick={() => {
+                    Socket.current?.emit("terminal_input", {
+                        input: "\x03"
+                    });
+                    }}
+                >
+                ■ Stop Command
+                </button>
+            </div>
+            <div className="forge-terminal-window">
+                <div className="forge-terminal-top">
+                    <div className="forge-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <span>zsh — FORGE</span>
+                </div>
+                <div
+                className="forge-terminal-screen"
+                ref={terminalRef}
+                />
+            </div>
+            <p className="forge-terminal-tip">
+            Tip: Click inside the terminal to type commands.
+            </p>
             </section>
-        </main>
-    )
-}
-
+            </div>
+            </main>
+        );
+    }
 export default FileExplorer;

@@ -1,0 +1,462 @@
+.forge-explorer * {
+    box-sizing: border-box
+}
+
+.forge-shell {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.forge-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap:24px;
+    margin-bottom: 30px;
+}
+
+.forge-eye {
+    display: inline-block;
+    padding: 6px 13px;
+    background: #BDE5CF;
+    border: 2px solid #252436;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.forger-header h1 {
+    margin: 12px 0 6px;
+    font-family: "Fredoka", sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.3rem);
+    line-height: 1.1;
+    letter-spacing: -2px;
+}
+
+.forge-header h1 span {
+    color: #8D7be8;
+}
+
+.forge-header p {
+    margin: 0;
+    color: #716D7B;
+    font-size: 15px;
+}
+
+.forge-header-action {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.forge-id {
+    padding: 10px 16px;
+    background: white;
+    border: 2px solid #252436;
+    border-radius: 12px;
+    font-weight: 900;
+    transition: 0.2s ease-in-out;
+}
+
+.forge-btn {
+    padding: 11px 19px;
+    border: 2px solid #252436;
+    border-radius: 12px;
+    box-shadow: 4px 4px 0 #252436;
+    font-family: 'fredoka', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #252436;
+    cursor: pointer;
+    transition: transform 0.15s, box-shodow 0.15s;
+}
+
+
+.forge-btn:hover:not(:disabled) {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 #252436;
+}
+
+.forge-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.forge-btn.purple {background:#B9B1F4;}
+.forge-btn.yellow {background: #F9DB89;}
+.forge-btn.green {background: #BDE5CF;}
+.forge-btn.red { background: rgba(187, 4, 4, 0.879); }
+
+.forge-path {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 18px 22px;
+    margin-bottom: 26px;
+
+    background: #FFFDF8;
+    border: 3px solid #252436;
+    border-radius: 18px;
+    box-shadow: 5px 5px 0 #252436;
+}
+
+.foge-path > div {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+}
+
+.forge-path span {
+    font-size: 8px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    color: #777181;
+}
+
+.forge-path code {
+    font-family: monospace;
+    font-size: 14px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.forge-workspace {
+    display: grid;
+    grid-template-columns: minmax(260px, 0.85fr) minmax(0, 1.4fr);
+    gap: 25px;
+    align-items: stretch;
+    margin-bottom: 28px;
+}
+
+.forge-panel {
+    min-width: 0;
+    background: white;
+    border: 3px solid #252436;
+    border-radius: 20px;
+    box-shadow: 6px 6px 0 #252436;
+    overflow: hidden;
+}
+
+.forge-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+
+    padding: 17px 20px;
+    border-bottom: 3px solid #252436;
+    background: #8D7be8;
+}
+
+.forge-panel-header h2 {
+    margin: 0;
+    font-family: "fredoka", sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.forge-count,
+.forge-tag {
+    background: #fff;
+    border: 2px solid #252436;
+    border-radius: 20px;
+    padding: 5px 11px;
+
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.forge-files {
+    min-height: 420px;
+}
+
+.forge-files .forge-panel-header {
+    background: #F9DB89;
+}
+
+.forge-file-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    list-style: none;
+    margin: 0;
+    padding: 20px;
+
+    max-height: 550px;
+    overflow-y: auto;
+}
+
+.forge-file-list li {
+    margin:0;
+    padding: 0;
+}
+
+.forge-file-item {
+    width: 100%;
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    background: #F8F6FF;
+    padding: 13px 14px;
+    border: 2px solid #252436;
+    color: #252436;
+    
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    text-align: left;
+
+    cursor: pointer;
+    transition: background 0.15s, transform 0.15s;
+}
+
+.forge-file-item.folder {
+    background: #FFF1C9;
+}
+
+.forge-file-item:hover {
+    background: #BDE5CF;
+}
+
+.forge-file-item:selected {
+    background: #8D7be8;
+    box-shadow: 3px 3px 0 #252436;
+}
+
+.forge-file-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.forge-file-name {
+    flex:1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.forge-file-arrow {
+    font-size: 19px;
+    font-weight: 900;
+    flex-shrink: 0;
+}
+
+.forge-empty-files {
+    padding: 30px;
+    text-align: center;
+    color: #777181;
+}
+
+.forge-error {
+    color: #A72f37;
+    padding: 10px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.forge-editor {
+    display: flex;
+    flex-direction: column;
+    min-height: 420px;
+}
+
+.forge-editor .forge-panel-header {
+    background:#BDE5CF;
+}
+
+.forge-editor-content {
+    padding:18px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex: 1;
+    min-height: 0;
+}
+
+.forge-open-file {
+    display: flex;
+    align-items: center;
+
+    gap:10px;
+    padding: 11px 15px;
+    background: #F3EFFA;
+    border: 2px dashed #B9B1F4;
+    border-radius: 10px;
+    min-width: 0;
+}
+
+.forge-open-file span {
+    color: #49B987;
+}
+
+.forge-open-file strong {
+    overflow-wrap: anywhere;
+    font-size: 13px;
+}
+
+.forge-code-input {
+    width: 100%;
+    min-height: 290px;
+    flex: 1;
+    resize: vertical;
+
+    padding: 20px;
+    background: #252436;
+    color: #F8F8F2;
+    border:  3px solid #252436;
+    border-radius: 14px;
+
+    font-family: "SFMono-regular", Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    tab-size: 4;
+}
+
+.forge-code-input:focus {
+    outline: 3px solid #8D7be8;
+    outline-offset: 2px;
+}
+
+.forge-editor-actions {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.forge-empty-editor {
+    flex: 1;
+    min-height:310px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    text-align: center;
+    padding: 25px;
+}
+
+.forge-empty-icon {
+    font-size: 58px;
+    margin-bottom: 12px;
+}
+
+.forge-empty-editor h3 {
+    margin: 0 0 6px;
+    font-family: "Fredoka", sans-serif;
+    font-size: 25px;
+}
+
+.forge-empty-editor p {
+    color: #777181;
+    font-size: 14px;
+}
+
+.forge-terminal-panel {
+    margin-top: 5px;
+}
+
+.forge-terminal-panel .forge-panel-header {
+    background: #DAD5FF;
+}
+
+.forge-terminal-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.forge-live-dot {
+    width: 13px;
+    height: 13px;
+    border: 2px solid #252436;
+    border-radius: 50%;
+    background: #54D89A;
+    flex-shrink: 0;
+}
+
+.forge-terminal-window {
+    margin: 22px;
+    background: #111111;
+    border: 3px solid #252436;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.forge-terminal-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: space-between;
+
+    background: #343347;
+    color: #E8E8F0;
+    border-bottom: 2px solid #55546A;
+    padding: 11px 16px;
+
+    font-family: "Fredoka", sans-serif;
+    font-size: 12px;
+}
+
+
+.forge-dots {
+    display: flex;
+    gap: 7px;
+}
+
+.forge-dots span {
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid #252436;
+}
+
+.forge-dots span:nth-child(1) {
+    background: #FF7D7D;
+}
+
+.forge-dots span:nth-child(2) {
+    background: #FFDA75;
+}
+
+.forge-dots span:nth-child(3) {
+    background: #74D8A9;
+}
+
+.forge-temrinal-screen {
+    width:100%;
+    height: 350px;
+    padding: 12px;
+    background: #111111;
+    overflow: hidden;
+}
+.forge-terminal-tip {
+    margin: 0 22px 22px;
+    color: #716D7B;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.forge-id {
+    margin-right: 10px;
+}
+
+button {
+    cursor: pointer;
+}
+
+.forge-id:hover{
+    box-shadow: 6px 6px #252436;
+    color: red;
+}
+
