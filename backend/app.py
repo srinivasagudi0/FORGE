@@ -40,8 +40,8 @@ def make_project():
     last_updated = data.get('last_updated')
     if not all([name, folder_path, language, date, last_updated]):
         return {"error": "Missing required fields."}, 400
-    if not folder_path.is_dir():
-        return {"error": "Folder path is not a directory"}
+    if not Path(folder_path).expanduser().resolver().is_dir():
+        return {"error": "Provided folder path is not a directory."}, 400
     try:
         create_project(name, folder_path, language, date, last_updated)
     except Exception as e:
@@ -275,7 +275,7 @@ def git_status(project_id):
             return jsonify({"error": "Not a git reppository."}), 400
         if not check.stdout.strip():
             return jsonify({"error": "Not a git repository."}), 400
-        branch = git("rev-", "--show-current")
+        branch = git("branch", "--show-current")
         changes = git("status", "--short")
 
         return jsonify({
