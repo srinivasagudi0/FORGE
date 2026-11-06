@@ -30,6 +30,18 @@ def health_check():
         "version": "0.1.0"
     }
 
+def check_git_in_project(folder):
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(folder), "rev-parse", "--is-inside-work-tree"],
+            capture_output=True,
+            text=True,
+            timeout=5
+        )
+        return result.returncode == 0 and result.stdout.strip() == "true"
+    except Exception as e:
+        return False
+
 @app.route('/api/projects/create', methods=['POST'])
 def make_project():
     data = request.get_json()
@@ -40,8 +52,10 @@ def make_project():
     last_updated = data.get('last_updated')
     if not all([name, folder_path, language, date, last_updated]):
         return {"error": "Missing required fields."}, 400
-    if not Path(folder_path).expanduser().resolver().is_dir():
+    if not Path(folder_path).expanduser().resolve().is_dir():
         return {"error": "Provided folder path is not a directory."}, 400
+    if not check_git_in_project(folder_path):
+        return {"error": "Provided folder is not a Git repository."}, 400
     try:
         create_project(name, folder_path, language, date, last_updated)
     except Exception as e:
