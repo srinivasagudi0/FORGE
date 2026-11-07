@@ -290,15 +290,24 @@ def git_status(project_id):
         branch = git("branch", "--show-current")
         changes = git("status", "--short")
         commits = git("log", "-5", "--format=%h|%s|%an|%aI")
-        remote = git("remote", "-get_url", "origin")
+        remote = git("remote", "get_url", "origin")
         repo_name = git("rev-parse", "--show-toplevel")
-
+        parts = [line.split("|") for line in commits.stdout.splitlines()]
 
         return jsonify({
             "is_git_repo": True,
             "branch": branch.stdout.strip() or "detached HEAD",
             "changes": changes.stdout.splitlines(),
-            "commits": [line.split("|") for line in commits.stdout.splitlines()],
+            "commits": [
+                {
+                    "hash": parts[0],
+                    "message": parts[1],
+                    "author": parts[2],
+                    "date": parts[3]
+                }
+                for line in commits.stdout.splitlines()
+                if len(parts := line.split("|", 3)) == 4
+            ],
             "remote": remote.stdout.strip(),
             "repo_name": Path(repo_name.stdout.strip()).name
         })
