@@ -7,7 +7,18 @@ function Insights() {
     const [gitData, setGitData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const changes = gitData?.changes || [];
+    const staged = changes.filter(file =>
+        file[0] !== " " && file[0] !== "?"
+    );
+    const unstaged = changes.filter(file =>
+        file[1] !== " " && file[1] !== "?"
+    );
+    const untracked = changes.filter(file =>
+        file.startsWith("??")
+    );
 
+    
 
     function goBack() {
         window.history.back();
@@ -19,17 +30,6 @@ function Insights() {
                 if (!response.ok) {
                     throw new Error("Failed to fetch Git information");
                 }
-
-            const changes = gitData?.changes || [];
-            const staged = changes.filter(file =>
-                file[0] !== " " && file[0] !== "?"
-            );
-            const unstaged = changes.filter(file =>
-                file[1] !== " " && file[1] !== "?"
-            );
-            const untracked = changes.filter(file =>
-                file.startsWith("??")
-            );
 
                 return response.json();
             })
@@ -72,7 +72,7 @@ function Insights() {
                             <h3>Staged Changes ({staged.length})</h3>
                             <ul>
                                 {staged.map((file, index) => (
-                                    <li key={index}>{file.slice(3)}</li>
+                                    <li key={index}>{file.slice}</li>
                                 ))}
                             </ul>
                         </div>
