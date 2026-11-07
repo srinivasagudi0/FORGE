@@ -19,6 +19,18 @@ function Insights() {
                 if (!response.ok) {
                     throw new Error("Failed to fetch Git information");
                 }
+
+            const changes = gitData?.changes || [];
+            const staged = changes.filter(file =>
+                file[0] !== " " && file[0] !== "?"
+            );
+            const unstaged = changes.filter(file =>
+                file[1] !== " " && file[1] !== "?"
+            );
+            const untracked = changes.filter(file =>
+                file.startsWith("??")
+            );
+
                 return response.json();
             })
             .then(data => {
@@ -48,17 +60,22 @@ function Insights() {
                 </div>
                 <div className="git-status">
                     <h2>Git Status</h2>
-                    {gitData?.is_git_repo ? (
+                    {gitData?.is_git_repo === true && (
                         <p>Current Branch: {gitData.branch}</p>
-                    ) : (
+                    )}
+
+                    {gitData?.is_git_repo === false && (
                         <p>This is not a Git repository.</p>
                     )}
                     {gitData?.is_git_repo && (
-                        <ul>
-                            {gitData.changes?.map((file,index) => (
-                                <li key={index}>{file}</li>
-                            ))}
-                        </ul>
+                        <div>
+                            <h3>Staged Changes ({staged.length})</h3>
+                            <ul>
+                                {staged.map((file, index) => (
+                                    <li key={index}>{file.slice(3)}</li>
+                                ))}
+                            </ul>
+                        </div>
                     )}
                 </div>
                 <div className="recent-commits">
