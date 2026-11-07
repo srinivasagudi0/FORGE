@@ -1,3 +1,4 @@
+import re
 from logging import root
 import shlex
 import subprocess
@@ -329,6 +330,9 @@ def commit_details(project_id, commit_hash):
     if not isinstance(commit_hash, str) or not commit_hash.isalnum() or len(commit_hash) > 40:
         return jsonify({"error": "Invalid commit hash format."}), 400
 
+    if not re.fullmatch(r"[0-9a-fA-F]{7,40}", commit_hash):
+        return jsonify({"error": "Invalid commit hash format."}), 400
+
     try:
         commit_details = subprocess.run(
             ["git", "show", "--format=fuller", "--stat", commit_hash],
@@ -338,7 +342,7 @@ def commit_details(project_id, commit_hash):
             timeout=10
         )
         file_changed = subprocess.run(
-            ["git", "diff-tree", "--no-commit-id", "--name-only", "-r", "-root", commit_hash],
+            ["git", "diff-tree", "--no-commit-id", "--name-only", "-r", "--root", commit_hash],
             cwd=folder,
             capture_output=True,
             text=True,

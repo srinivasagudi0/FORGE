@@ -81,13 +81,24 @@ function Insights() {
             });
     }, [id]);
 
-    function expandCommit(commit) {
+    async function expandCommit(commit) {
+        setCommitExpanded(true);
         setCommitAuthor(commit.author);
         setCommitDate(commit.date);
         setCommitMessage(commit.message);
-        setCommitFiles(commit.files || []);
-        setCommitDiff(commit.diff || null);
-        setCommitExpanded(true);
+
+        const response = await fetch(
+            `http://localhost:5000/api/projects/${id}/git/commits/${commit.hash}`
+        );
+
+        if (!response.ok) {
+            setError("Failed to load commit details");
+            return;
+        }
+        const data = await response.json();
+
+        setCommitFiles(data.files_changed || []);
+        setCommitDiff(data.commit_details || "");
     }
 
     return (
