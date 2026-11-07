@@ -293,7 +293,7 @@ def git_status(project_id):
         return jsonify({
             "is_git_repo": True,
             "branch": branch.stdout.strip() or "detached HEAD",
-            "changes": changes.stdout.strip().splitlines()
+            "changes": changes.stdout.splitlines()
         })
     except Exception as e:
         return jsonify({"error": str(e)}), 500

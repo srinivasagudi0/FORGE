@@ -18,7 +18,7 @@ function Insights() {
         file.startsWith("??")
     );
 
-    
+
 
     function goBack() {
         window.history.back();
@@ -72,7 +72,19 @@ function Insights() {
                             <h3>Staged Changes ({staged.length})</h3>
                             <ul>
                                 {staged.map((file, index) => (
-                                    <li key={index}>{file.slice}</li>
+                                    <li key={index}>{file.slice(3)}</li>
+                                ))}
+                            </ul>
+                            <h3>Unstaged Changes ({unstaged.length})</h3>
+                            <ul>
+                                {unstaged.map((file, index) => (
+                                    <li key={index}>{file.slice(3)}</li>
+                                ))}
+                            </ul>
+                            <h3>Untracked Files ({untracked.length})</h3>
+                            <ul>
+                                {untracked.map((file, index) => (
+                                    <li key={index}>{file.slice(3)}</li>
                                 ))}
                             </ul>
                         </div>
