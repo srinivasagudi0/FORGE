@@ -289,11 +289,18 @@ def git_status(project_id):
             return jsonify({"error": "Not a git repository."}), 400
         branch = git("branch", "--show-current")
         changes = git("status", "--short")
+        commits = git("log", "-5", "--format=%h|%s|%an|%aI")
+        remote = git("remote", "-get_url", "origin")
+        repo_name = git("rev-parse", "--show-toplevel")
+
 
         return jsonify({
             "is_git_repo": True,
             "branch": branch.stdout.strip() or "detached HEAD",
-            "changes": changes.stdout.splitlines()
+            "changes": changes.stdout.splitlines(),
+            "commits": [line.split("|") for line in commits.stdout.splitlines()],
+            "remote": remote.stdout.strip(),
+            "repo_name": Path(repo_name.stdout.strip()).name
         })
     except Exception as e:
         return jsonify({"error": str(e)}), 500

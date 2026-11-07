@@ -18,6 +18,9 @@ function Insights() {
         file.startsWith("??")
     );
 
+    const [commits, setCommits] = useState([]);
+    const [remote, setRemote] = useState(null);
+    const [repoName, setRepoName] = useState(null);
 
 
     function goBack() {
@@ -35,6 +38,9 @@ function Insights() {
             })
             .then(data => {
                 setGitData(data);
+                setCommits(data.commits || []);
+                setRemote(data.remote || null);
+                setRepoName(data.repo_name || null);
             })
             .catch(error => {
                 setError(error.message);
@@ -96,6 +102,26 @@ function Insights() {
                 </div>
                 <div className="recent-commits">
                     <h2>Recent Commits</h2>
+                    {commits.length > 0 ? (
+                        <ul>
+                            {commits.map((commit, index) => (
+                                <li key={index}>
+                                    <p>{commit.message}</p>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>No recent commits found.</p>
+                    )}
+                </div>
+                <div className="remote-info">
+                    <h2>Remote Information</h2>
+                    {remote && (
+                        <p><strong>Remote:</strong> {remote}</p>
+                    )}
+                    {repoName && (
+                        <p><strong>Repository Name:</strong> {repoName}</p>
+                    )}
                 </div>
             </section>
         </main>
