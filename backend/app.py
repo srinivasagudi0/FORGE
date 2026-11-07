@@ -303,7 +303,7 @@ def git_status(project_id):
                     "hash": parts[0],
                     "message": parts[1],
                     "author": parts[2],
-                    "date": parts[3]
+                    "date": parts[3],
                 }
                 for line in commits.stdout.splitlines()
                 if len(parts := line.split("|", 3)) == 4

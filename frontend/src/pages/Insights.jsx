@@ -19,6 +19,12 @@ function Insights() {
     );
 
     const [commits, setCommits] = useState([]);
+    const [commitAuthor, setCommitAuthor] = useState(null);
+    const [commitDate, setCommitDate] = useState(null);
+    const [commitMessage, setCommitMessage] = useState(null);
+    const [commitFiles, setCommitFiles] = useState([]);
+    const [commitDiff, setCommitDiff] = useState(null);
+    const [commitExpanded, setCommitExpanded] = useState(false);
     const [remote, setRemote] = useState(null);
     const [repoName, setRepoName] = useState(null);
 
@@ -74,6 +80,10 @@ function Insights() {
                 setLoading(false);
             });
     }, [id]);
+
+    function expandCommit(event) {
+
+    }
 
     return (
         <main>
@@ -132,7 +142,7 @@ function Insights() {
                         <ul>
                             {commits.map((commit, index) => (
                                 <li key={index}>
-                                    <p>{commit.message}</p>
+                                    <button onClick={expandCommit}>{commit.message}</button>
                                 </li>
                             ))}
                         </ul>
