@@ -290,7 +290,7 @@ def git_status(project_id):
         branch = git("branch", "--show-current")
         changes = git("status", "--short")
         commits = git("log", "-5", "--format=%h|%s|%an|%aI")
-        remote = git("remote", "get_url", "origin")
+        remote = git("remote", "get-url", "origin")
         repo_name = git("rev-parse", "--show-toplevel")
         parts = [line.split("|") for line in commits.stdout.splitlines()]
 
