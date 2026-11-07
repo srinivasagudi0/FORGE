@@ -314,5 +314,42 @@ def git_status(project_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route("/api/projects/<int:project_id>/git/commits/<commit_hash>")
+def commit_details(project_id, commit_hash):
+    project = get_project_by_id(project_id)
+    if not project or not commit_hash:
+        return jsonify({"error": "Project or commit hash not found."}), 404
+    if not check_git_in_project(Path(project[2]).expanduser().resolve()):
+        return jsonify({"error": "Not a git repository."}), 400
+    folder = Path(project[2]).expanduser().resolve()
+    if not folder.is_dir():
+        return jsonify({"error": "Project folder path is not a directory."}), 400
+
+    # validate commit hash format using hexadecimal regex
+    if not isinstance(commit_hash, str) or not commit_hash.isalnum() or len(commit_hash) > 40:
+        return jsonify({"error": "Invalid commit hash format."}), 400
+
+    try:
+        commit_details = subprocess.run(
+            ["git", "show", "--format=fuller", "--stat", commit_hash],
+            cwd=folder,
+            capture_output=True,
+            text=True,
+            timeout=10
+        )
+        file_changed = subprocess.run(
+            ["git", "diff-tree", "--no-commit-id", "--name-only", "-r", "-root", commit_hash],
+            cwd=folder,
+            capture_output=True,
+            text=True,
+            timeout=10
+        )
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    return jsonify({
+        "commit_details": commit_details.stdout,
+        "files_changed": file_changed.stdout.splitlines() 
+    })
+
 if __name__ == '__main__':
     socketio.run(app, host='127.0.0.1', port=5000, debug=False)

@@ -81,8 +81,13 @@ function Insights() {
             });
     }, [id]);
 
-    function expandCommit(event) {
-
+    function expandCommit(commit) {
+        setCommitAuthor(commit.author);
+        setCommitDate(commit.date);
+        setCommitMessage(commit.message);
+        setCommitFiles(commit.files || []);
+        setCommitDiff(commit.diff || null);
+        setCommitExpanded(true);
     }
 
     return (
@@ -142,7 +147,9 @@ function Insights() {
                         <ul>
                             {commits.map((commit, index) => (
                                 <li key={index}>
-                                    <button onClick={expandCommit}>{commit.message}</button>
+                                    <button onClick={() =>expandCommit
+                                        (commit)
+                                    }>{commit.message}</button>
                                 </li>
                             ))}
                         </ul>
