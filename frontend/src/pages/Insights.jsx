@@ -27,6 +27,31 @@ function Insights() {
         window.history.back();
     }
 
+    function reFetch() {
+        setLoading(true);
+        setError("");
+        fetch(`http://localhost:5000/api/projects/${id}/git`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch Git information");
+                }
+
+                return response.json();
+            })
+            .then(data => {
+                setGitData(data);
+                setCommits(data.commits || []);
+                setRemote(data.remote || null);
+                setRepoName(data.repo_name || null);
+            })
+            .catch(error => {
+                setError(error.message);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    }
+
     useEffect(() => {
         fetch(`http://localhost:5000/api/projects/${id}/git`)
             .then(response => {
@@ -59,6 +84,7 @@ function Insights() {
                 <h1>Insights</h1>
                 <span className="forge-id">Project #{id}</span>
                 <button onClick={goBack}>Back</button>
+                <button onClick={reFetch}>Refresh</button>
             </div>
             <section className="content">
                 <div className="repo-overview">
