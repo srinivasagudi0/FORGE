@@ -72,7 +72,7 @@ function Insights() {
                             <h3>Staged Changes ({staged.length})</h3>
                             <ul>
                                 {staged.map((file, index) => (
-                                    <li key={index}>{file.slice(3)}</li>
+                                    <li key={index}>{file.slice(2)}</li>
                                 ))}
                             </ul>
                             <h3>Unstaged Changes ({unstaged.length})</h3>
@@ -83,9 +83,13 @@ function Insights() {
                             </ul>
                             <h3>Untracked Files ({untracked.length})</h3>
                             <ul>
-                                {untracked.map((file, index) => (
-                                    <li key={index}>{file.slice(3)}</li>
-                                ))}
+                                {untracked.length > 0 ? (
+                                    untracked.map((file,index) => (
+                                        <li key={index}>{file.slice(3)}</li>
+                                    ))
+                                ):(
+                                    <p>No untracked files.</p>
+                                )}
                             </ul>
                         </div>
                     )}
