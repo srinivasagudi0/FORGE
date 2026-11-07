@@ -161,6 +161,25 @@ function Insights() {
                                     <button onClick={() =>expandCommit
                                         (commit)
                                     }>{commit.message}</button>
+                                    {commitExpanded && (
+                                        <div className='commit-details'>
+                                           <h3>{commitMessage}</h3> 
+                                           <p>Author: {commitAuthor}</p>
+                                           <p>Date: {new Date(commitDate).toLocaleDateString()}</p>
+
+                                           <h4>Changed Files</h4>
+                                           <ul>
+                                                {commitFiles.map((file, index) => (
+                                                    <li key={index}>{file}</li>
+                                                ))}
+                                           </ul>
+                                           
+                                           <h4>Commit Summary</h4>
+                                             <pre>{commitDiff}</pre>
+
+                                            <button onClick={() => setCommitExpanded(false)}>Close</button>
+                                        </div>
+                                    )}
                                 </li>
                             ))}
                         </ul>
