@@ -143,6 +143,7 @@ function Insights() {
             <section className="content">
 
                     <h2 style={{ textDecoration: 'underline', textDecorationStyle: 'double' }}>Repository Overview</h2>
+                    <br />
 
                 <div className="git-status">
                     <h2>Git Status</h2>

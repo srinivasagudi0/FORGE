@@ -103,3 +103,20 @@
     white-space: pre-wrap;
     overflow-wrap: anywhere;
 }
+
+.recent-commits {
+    height: 500px;
+    overflow-y: auto;
+    align-self: start;
+}
+
+.commit-details {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.commit-details pre {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}

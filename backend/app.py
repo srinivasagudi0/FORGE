@@ -290,7 +290,7 @@ def git_status(project_id):
             return jsonify({"error": "Not a git repository."}), 400
         branch = git("branch", "--show-current")
         changes = git("status", "--short")
-        commits = git("log", "-5", "--format=%h|%s|%an|%aI")
+        commits = git("log", "-15", "--format=%h|%s|%an|%aI")
         remote = git("remote", "get-url", "origin")
         repo_name = git("rev-parse", "--show-toplevel")
         parts = [line.split("|") for line in commits.stdout.splitlines()]
