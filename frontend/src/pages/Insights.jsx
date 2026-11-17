@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react'
+import "./insights.css"
 
 function Insights() {
 
@@ -129,15 +130,15 @@ function Insights() {
     }
 
     return (
-        <main>
+        <main className="insights-page">
             {loading && <p>Loading Git information...</p>}
             {error && <p>Error: {error}</p>}
             
             <div className="header">
                 <h1>Insights</h1>
                 <span className="forge-id">Project #{id}</span>
-                <button onClick={goBack}>Back</button>
-                <button onClick={reFetch}>Refresh</button>
+                <button className="forge-id" onClick={goBack}>Back</button>
+                <button className="forge-id" onClick={reFetch}>Refresh</button>
             </div>
             <section className="content">
                 <div className="repo-overview">

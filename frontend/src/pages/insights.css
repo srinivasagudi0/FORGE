@@ -1,0 +1,21 @@
+.insights-page {
+    min-height: 100vh;
+    background: linear-gradient(rgb(201, 201, 191),#101827);
+    color: #00030e;
+    padding: 32px;
+    font-family: "Trebuchet MS", sans-serif;
+}
+
+.insights-page .header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.insights-page .header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    margin-right: auto;
+}
+
