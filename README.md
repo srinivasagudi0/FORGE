@@ -29,3 +29,10 @@ Everything you need to build your app on a computer with no enough storage or wh
 
 ![alt text](image-2.png)
 
+- Git Insights
+- - View your current git status
+- - Check staged, usntaged and untracked files
+- - Check your recents commits
+- View your current branch and remote
+
+![alt text](image-3.png)x

@@ -190,6 +190,7 @@ function Insights() {
                                     <button onClick={() => toggleCommit(commit.hash)}>
                                         {commit.message}
                                     </button>
+                                    <br />
                                     {expandedCommitHash === commit.hash && (
                                         <div className='commit-details'>
                                            <h3>{commit.message}</h3> 
