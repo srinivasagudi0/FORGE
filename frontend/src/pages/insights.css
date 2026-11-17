@@ -31,12 +31,27 @@
 
 .git-status h2 {
     color: #830444;
+    margin: 10px;
 }
 
 .git-status {
-    border: 10px solid #830444;
+    border: 1px solid #830444;
     max-width: 300px;
     padding: 20px;
     overflow: auto;
+    border-radius: 100px;
+    background-color: rgba(0, 183, 255, 0.265);
+}
 
+.recent-commits {
+    border: 1px solid #042d83;
+    max-width: 300px;
+    padding: 20px;
+    overflow: auto;
+}
+
+.content {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
 }
