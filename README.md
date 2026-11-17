@@ -35,4 +35,16 @@ Everything you need to build your app on a computer with no enough storage or wh
 - - Check your recents commits
 - View your current branch and remote
 
-![alt text](image-3.png)x
+![alt text](image-3.png)
+
+This is the 1st version of FORGE. I was focusing to get everything running together correctly. I will be adding more inisights page and brand new features in the next version after I get some feedback from the users and reviewers.
+
+## Ai declaration
+
+I used Ai for 
+
+- debugging: Help find what causes the errors and at the start for running commands to make the placeholder files.
+- Learning: Explanations and implementatios for interactive terminal.
+- Styling: Asking it to help me pick colors and styles for the UI.
+
+I understand everyhting that is in this project and I have written all the code myself. I have used Ai to help me with the above mentioned tasks
