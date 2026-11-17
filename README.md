@@ -22,3 +22,10 @@ Everything you need to build your app on a computer with no enough storage or wh
 
 ![alt text](image-1.png)
 
+- Built in Terminal
+- - Run commands in your project
+- - Work from your project root dir
+- - Just like a normal terminal but in your project root dir
+
+![alt text](image-2.png)
+
