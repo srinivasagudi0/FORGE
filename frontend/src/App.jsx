@@ -6,9 +6,6 @@ import Insights from './pages/Insights';
 function App() {
   return (
     <Router>
-      <nav>
-          <Link to="/">Dashboard</Link>
-      </nav>
 
       <Routes>
         <Route path="/" element={<Dashboard />} />

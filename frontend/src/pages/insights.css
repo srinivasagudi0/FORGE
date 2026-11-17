@@ -19,3 +19,12 @@
     margin-right: auto;
 }
 
+.forge-id {
+    font-size: 1.25rem;
+}
+
+.insights-page h2 {
+    margin-top: 0;
+    color: #042d83;
+    font-size: 2rem;
+}
