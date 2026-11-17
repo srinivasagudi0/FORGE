@@ -232,3 +232,15 @@ ul {
     white-space: pre-wrap;
     tab-size: 4;
 }
+
+.repo-overview {
+    flex: 0 0 100%;
+}
+
+.git-status {
+    flex: 1 1 300px;
+}
+
+.content > .repo-overview {
+    flex: 0 0 100%;
+}
