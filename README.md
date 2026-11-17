@@ -13,3 +13,12 @@ Everything you need to build your app on a computer with no enough storage or wh
 
 
 ![alt text](image.png)
+
+- File Explorer
+- - Browse your project files
+- - Open and read files
+- - edit and save files
+- - jump between dirs
+
+![alt text](image-1.png)
+
