@@ -33,7 +33,29 @@ function Insights() {
         window.history.back();
     }
 
-    function toggleCommit(hash) {
+    async function toggleCommit(hash) {
+        if (expandedCommitHash === hash){
+            setExpandedCommitHash(null);
+            return;
+        }
+
+        setCommitFiles([]);
+        setCommitDiff(null);
+
+        try {
+            const respsone = await fetch(
+                `http://localhost:5000/api/projects/${id}/git/commits/${hash}`
+            );
+            if (!respsone.ok) {
+                throw new Error("Failed to load commit details");
+            }
+            const data = await respsone.json();
+            setCommitFiles(data.files_changed || []);
+            setCommitDiff(data.commit_details || "");
+        } catch (error) {
+            setError(error.message);
+        }
+
         setExpandedCommitHash(prev => prev === hash ? null : hash);
     }
 
@@ -168,9 +190,9 @@ function Insights() {
                                     </button>
                                     {expandedCommitHash === commit.hash && (
                                         <div className='commit-details'>
-                                           <h3>{commitMessage}</h3> 
-                                           <p>Author: {commitAuthor}</p>
-                                           <p>Date: {new Date(commitDate).toLocaleDateString()}</p>
+                                           <h3>{commit.message}</h3> 
+                                           <p>Author: {commit.author}</p>
+                                           <p>Date: {new Date(commit.date).toLocaleDateString()}</p>
 
                                            <h4>Changed Files</h4>
                                            <ul>
@@ -182,7 +204,7 @@ function Insights() {
                                            <h4>Commit Summary</h4>
                                              <pre>{commitDiff}</pre>
 
-                                            <button onClick={() => setCommitExpanded(false)}>Close</button>
+                                            <button onClick={() => setExpandedCommitHash(null)}>Close</button>
                                         </div>
                                     )}
                                 </li>
