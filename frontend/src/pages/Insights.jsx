@@ -141,9 +141,9 @@ function Insights() {
                 <button className="forge-id" onClick={reFetch}>Refresh</button>
             </div>
             <section className="content">
-                <div className="repo-overview">
+
                     <h2 style={{ textDecoration: 'underline', textDecorationStyle: 'double' }}>Repository Overview</h2>
-                </div>
+
                 <div className="git-status">
                     <h2>Git Status</h2>
                     {gitData?.is_git_repo === true && (

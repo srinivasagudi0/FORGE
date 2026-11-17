@@ -55,3 +55,51 @@
     gap: 20px;
     flex-wrap: wrap;
 }
+
+.content > div {
+    flex: 1 1 300px;
+    padding: 20px;
+    border: 3px solid #252436;
+    border-radius: 20px;
+
+}
+
+.content > div {
+    flex: 1 1 300px;
+    min-width: 0;
+    max-width: none;
+    padding: 20px;
+    border: 3px solid #252436;
+    border-radius: 20px;
+    background: #FFFDF8;
+    box-shadow: 5px 5px 0 #252436;
+}
+
+.content h2 {
+    color: #252436;
+    font-family: "Fredoka", sans-serif;
+}
+
+.recent-commits {
+    flex: 1 1 100%;
+}
+
+.recent-commits button {
+    background: #B9B1F4;
+    border: 2px solid #252436;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.commit-details {
+    padding: 15px;
+    margin-top: 12px;
+    background: #F3EFFA;
+    border-radius: 12px;
+}
+
+.commit-details pre {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
