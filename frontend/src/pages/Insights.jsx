@@ -24,7 +24,7 @@ function Insights() {
     const [commitMessage, setCommitMessage] = useState(null);
     const [commitFiles, setCommitFiles] = useState([]);
     const [commitDiff, setCommitDiff] = useState(null);
-    const [commitExpanded, setCommitExpanded] = useState(false);
+    const [expandedCommitHash, setExpandedCommitHash] = useState(null);
     const [remote, setRemote] = useState(null);
     const [repoName, setRepoName] = useState(null);
 
@@ -32,6 +32,11 @@ function Insights() {
     function goBack() {
         window.history.back();
     }
+
+    function toggleCommit(hash) {
+        setExpandedCommitHash(prev => prev === hash ? null : hash);
+    }
+
 
     function reFetch() {
         setLoading(true);
@@ -158,10 +163,10 @@ function Insights() {
                         <ul>
                             {commits.map((commit, index) => (
                                 <li key={index}>
-                                    <button onClick={() =>expandCommit
-                                        (commit)
-                                    }>{commit.message}</button>
-                                    {commitExpanded && (
+                                    <button onClick={() => toggleCommit(commit.hash)}>
+                                        {commit.message}
+                                    </button>
+                                    {expandedCommitHash === commit.hash && (
                                         <div className='commit-details'>
                                            <h3>{commitMessage}</h3> 
                                            <p>Author: {commitAuthor}</p>
