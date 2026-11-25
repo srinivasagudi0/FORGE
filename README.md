@@ -6,36 +6,38 @@ Forge is a local developer UI that I built to bring several coding tools togethe
 
 Everything you need to build your app, even if your computer is full or you just want to work in one spot.
 
-- Project Dashboard
+### Project Dashboard
 
-Add a project you already started
-See all your projects in one place
-Check what coding languages you used and when you last worked on them
+- Add a project you already started
+- See all your projects in one place
+- Check what coding languages you used and when you last worked on them
 
 
 ![alt text](image.png)
 
-- File Explorer
+### File Explorer
 
-Look through your project files
-Open and read your files
-Make changes and save your work
-Easily jump between different folders
+- Look through your project files
+- Open and read your files
+- Make changes and save your work
+- Easily jump between different folders
 
 ![alt text](image-1.png)
 
-- Built-in Terminal
-Run commands right inside your project
-Work directly from your main project folder
-Use it just like a normal terminal, but without having to switch screens
+### Built-in Terminal
+
+- Run commands right inside your project
+- Work directly from your main project folder
+- Use it just like a normal terminal, but without having to switch screens
 
 ![alt text](image-2.png)
 
-- Git Insights
-See what's happening with your code right now
-Check which files are ready to save, which ones are still being worked on, and any new ones
-Look back at your recent saves
-Easily see which branch you are working on and where it is saved online
+### Git Insights
+
+- See what's happening with your code right now
+- Check which files are ready to save, which ones are still being worked on, and any new ones
+- Look back at your recent saves
+- Easily see which branch you are working on and where it is saved online
 
 ![alt text](image-3.png)
 
